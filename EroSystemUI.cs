@@ -8,15 +8,21 @@ public class EroSystemUI : BaseUIState
 {
     [SerializeField]
     private GameObject character;
+    public List<GameObject> characters;
     [SerializeField]
     private GameObject player;
     public GameObject mainCam;
     public GameObject eroCam;
 
 
+    // UI Buttons
     private List<Button> PoseButtons;
+
     private Button FirstPersonViewButton;
     private Button ThirdPersonViewButton;
+
+    private Button PrevCharacterButton;
+    private Button NextCharacterButton;
 
     public override void Awake()
     {
@@ -30,7 +36,6 @@ public class EroSystemUI : BaseUIState
             _document.rootVisualElement.Q<Button>("Pose2"),
             _document.rootVisualElement.Q<Button>("Pose3")
         };
-        // 注册按钮点击事件
         for (int i = 0; i < PoseButtons.Count; i++)
         {
             var button = PoseButtons[i];
@@ -65,6 +70,18 @@ public class EroSystemUI : BaseUIState
             eroCam.GetComponent<CinemachineFreeLook>().LookAt = character.transform;
         });
 
+        //角色切换
+        PrevCharacterButton = _document.rootVisualElement.Q<Button>("PrevCharacter");
+        PrevCharacterButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            Debug.Log("Previous Character Button Clicked");
+        });
+
+        NextCharacterButton = _document.rootVisualElement.Q<Button>("NextCharacter");
+        NextCharacterButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            Debug.Log("Next Character Button Clicked")
+        });
     }
 
     public override void Start()
