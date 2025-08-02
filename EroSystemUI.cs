@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Cinemachine;
+using UnityEngine.Rendering;
 
 public class EroSystemUI : BaseUIState
 {
@@ -9,7 +10,8 @@ public class EroSystemUI : BaseUIState
     private GameObject character;
     [SerializeField]
     private GameObject player;
-    public CinemachineFreeLook cam;
+    public GameObject mainCam;
+    public GameObject eroCam;
 
 
     private List<Button> PoseButtons;
@@ -47,6 +49,8 @@ public class EroSystemUI : BaseUIState
             });
         }
 
+
+        //View°´Å¥
         FirstPersonViewButton = _document.rootVisualElement.Q("FirstPersonView") as Button;
         FirstPersonViewButton.RegisterCallback<ClickEvent>(evt =>
         {
@@ -54,10 +58,11 @@ public class EroSystemUI : BaseUIState
         });
 
         ThirdPersonViewButton = _document.rootVisualElement.Q("ThirdPersonView") as Button;
-        ThirdPersonViewButton.RegisterCallback<ClickEvent>(evt => {
+        ThirdPersonViewButton.RegisterCallback<ClickEvent>(evt =>
+        {
             Debug.Log("Third Person View Button Clicked");
-            cam.Follow = character.transform;
-            cam.LookAt = character.transform;
+            eroCam.GetComponent<CinemachineFreeLook>().Follow = character.transform;
+            eroCam.GetComponent<CinemachineFreeLook>().LookAt = character.transform;
         });
 
     }
@@ -66,8 +71,10 @@ public class EroSystemUI : BaseUIState
     {
         base.Start();
         character.GetComponent<Animator>().SetTrigger("ero");
-
-
+        //player.GetComponent<PlayerMove>().enabled=false;
+        player.gameObject.SetActive(false);
+        eroCam.SetActive(true);
+        mainCam.SetActive(false);
     }
 
     private void Update()
@@ -78,6 +85,13 @@ public class EroSystemUI : BaseUIState
             _UIStateMachine.ChangeState(UIStateMachine.UIState.Main);
         }
     }
-
+    public virtual void OnDisable()
+    {
+        base.OnDisable();
+        //»Ö¸´Ïà»ú
+        player.gameObject.SetActive(true);
+        eroCam.SetActive(false);
+        mainCam.SetActive(true);
+    }
 
 }

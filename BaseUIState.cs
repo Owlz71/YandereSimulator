@@ -39,6 +39,9 @@ public class BaseUIState : MonoBehaviour
             _buttons[i].UnregisterCallback<ClickEvent>(OnAllButtonsClick);
         }
     }
+
+
+
     private void OnAllButtonsClick(ClickEvent evt)
     {
         audioSource.Play();
