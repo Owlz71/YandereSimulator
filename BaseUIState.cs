@@ -13,7 +13,7 @@ public class BaseUIState : MonoBehaviour
     protected UIStateMachine _UIStateMachine;
     private List<Button> _buttons;
 
-    private void Start()
+    public virtual void Start()
     {
         _UIStateMachine = UIManager.Instance._UIStateMachine;
         if (audioSource == null)
@@ -24,7 +24,7 @@ public class BaseUIState : MonoBehaviour
     {
         _document = GetComponent<UIDocument>();
 
-        _buttons = _document.rootVisualElement.Query<Button>().ToList()
+        _buttons = _document.rootVisualElement.Query<Button>().ToList();
         foreach (Button button in _buttons)
         {
             button.RegisterCallback<ClickEvent>(OnAllButtonsClick);

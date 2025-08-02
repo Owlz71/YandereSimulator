@@ -5,7 +5,6 @@ using UnityEngine.UIElements;
 
 public class DebugUI : BaseUIState
 {
-
     private Button EroSysEnterButton;
     public virtual void Awake()
     {
